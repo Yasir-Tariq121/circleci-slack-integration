@@ -53,12 +53,12 @@ workflows:
       - Hello:
           filters:
             branches:
-              only: main
+              only: circleci-project-setup
 
       - Deployment:
           requires:
             - Hello
           filters:
             branches:
-              only: main
+              only: circleci-project-setup
 
