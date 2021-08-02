@@ -54,6 +54,7 @@ workflows:
           filters:
             branches:
               only: circleci-project-setup
+          context: test
 
       - Deployment:
           requires:
@@ -61,4 +62,5 @@ workflows:
           filters:
             branches:
               only: circleci-project-setup
+          context: test
 
