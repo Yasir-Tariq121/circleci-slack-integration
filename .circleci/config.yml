@@ -15,6 +15,7 @@ jobs:
       - run:
           name: echo hello world
           command: |
+            apk add --update --no-cache curl py-pip jq make git bash
             echo "Hello World"
       - slack/notify:
           channel: C0233P8D42J
@@ -35,6 +36,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
+            apk add --update --no-cache curl py-pip jq make git bash
             echo "Hello from Circleci" 
       - slack/notify:
           channel: C0233P8D42J
