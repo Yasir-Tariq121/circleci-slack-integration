@@ -37,7 +37,7 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update --no-cache curl py-pip jq make git bash
-            eco "Hello from Circleci"  
+            echo "Hello from Circleci"  
       - slack/notify:
           channel: C0233P8D42J
           event: pass
