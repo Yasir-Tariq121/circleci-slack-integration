@@ -71,6 +71,9 @@ workflows:
           context: test
 
       - Notify:
+          requires:
+            - Hello
+            - Deployment
           filters:
             branches:
               only: circleci-project-setup
