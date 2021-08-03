@@ -5,7 +5,7 @@ orbs:
   slack: circleci/slack@4.3.1
 
 jobs:
-  Hello:
+  Job1:
     docker:
       - image: docker:18.09.3-git
     steps:
@@ -26,7 +26,7 @@ jobs:
                 event: fail
                 template: basic_fail_1 
 
-  Deployment:
+  Job2:
     docker:
       - image: docker:18.09.3-git
     steps:
@@ -38,6 +38,48 @@ jobs:
           command: |
             apk add --update --no-cache curl py-pip jq make git bash
             eco "Hello from Circleci"  
+      - when:
+          condition:
+            on_fail
+          steps:
+            - slack/notify:
+                channel: C0233P8D42J
+                event: fail
+                template: basic_fail_1 
+
+  Job3:
+    docker:
+      - image: docker:18.09.3-git
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 18.09.3
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update --no-cache curl py-pip jq make git bash
+            echo "Hello from Circleci"  
+      - when:
+          condition:
+            on_fail
+          steps:
+            - slack/notify:
+                channel: C0233P8D42J
+                event: fail
+                template: basic_fail_1 
+
+  Job4:
+    docker:
+      - image: docker:18.09.3-git
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 18.09.3
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update --no-cache curl py-pip jq make git bash
+            echo "Hello from Circleci"  
       - when:
           condition:
             on_fail
@@ -73,15 +115,31 @@ workflows:
   version: 2
   build_and_deploy_stage:
     jobs:
-      - Hello:
+      - Job1:
           filters:
             branches:
               only: circleci-project-setup
           context: test
 
-      - Deployment:
+      - Job2:
           requires:
-            - Hello
+            - Job1
+          filters:
+            branches:
+              only: circleci-project-setup
+          context: test
+      
+      - Job3:
+          requires:
+            - Job1
+          filters:
+            branches:
+              only: circleci-project-setup
+          context: test
+
+      - Job4:
+          requires:
+            - Job1
           filters:
             branches:
               only: circleci-project-setup
