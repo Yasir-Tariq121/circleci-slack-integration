@@ -17,14 +17,6 @@ jobs:
           command: |
             apk add --update --no-cache curl py-pip jq make git bash
             echo "Hello World"
-      - slack/notify:
-          channel: C0233P8D42J
-          event: pass
-          template: basic_success_1
-      - slack/notify:
-          channel: C0233P8D42J
-          event: fail
-          template: basic_fail_1   
 
   Deployment:
     docker:
@@ -37,7 +29,19 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update --no-cache curl py-pip jq make git bash
-            echo "Hello from Circleci" 
+            echo "Hello from Circleci"  
+
+  Notify:
+    docker:
+      - image: docker:18.09.3-git
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 18.09.3
+      - run:
+          name: Install dependencies
+          command: |
+            apk add --update --no-cache curl py-pip jq make git bash
       - slack/notify:
           channel: C0233P8D42J
           event: pass
@@ -45,7 +49,7 @@ jobs:
       - slack/notify:
           channel: C0233P8D42J
           event: fail
-          template: basic_fail_1   
+          template: basic_fail_1 
 
 
 workflows:
@@ -61,6 +65,12 @@ workflows:
       - Deployment:
           requires:
             - Hello
+          filters:
+            branches:
+              only: circleci-project-setup
+          context: test
+
+      - Notify:
           filters:
             branches:
               only: circleci-project-setup
