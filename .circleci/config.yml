@@ -29,7 +29,7 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update --no-cache curl py-pip jq make git bash
-            echo "Hello from Circleci"  
+            eco "Hello from Circleci"  
 
   Notify:
     docker:
