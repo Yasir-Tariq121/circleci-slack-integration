@@ -39,11 +39,11 @@ jobs:
             apk add --update --no-cache curl py-pip jq make git bash
             eco "Hello from Circleci"  
       - slack/notify:
-          channel: C016PQHRC5P
+          channel: C0233P8D42J
           event: pass
           template: basic_success_1
       - slack/notify:
-          channel: C016PQHRC5P
+          channel: C0233P8D42J
           event: fail
           template: basic_fail_1
 
