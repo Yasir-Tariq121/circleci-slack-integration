@@ -16,7 +16,7 @@ jobs:
           name: echo hello world
           command: |
             apk add --update --no-cache curl py-pip jq make git bash
-            ech "Hello World"
+            echo "Hello World"
       - when:
           condition:
             on_fail
@@ -58,7 +58,7 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update --no-cache curl py-pip jq make git bash
-            echo "Hello from Circleci"  
+            ech "Hello from Circleci"  
       - when:
           condition:
             on_fail
