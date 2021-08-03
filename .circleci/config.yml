@@ -17,6 +17,11 @@ jobs:
           command: |
             apk add --update --no-cache curl py-pip jq make git bash
             echo "Hello World"
+      - slack/notify:
+          when: on_fail
+          channel: C0233P8D42J
+          event: fail
+          template: basic_fail_1 
 
   Deployment:
     docker:
@@ -30,26 +35,31 @@ jobs:
           command: |
             apk add --update --no-cache curl py-pip jq make git bash
             eco "Hello from Circleci"  
-
-  Notify:
-    docker:
-      - image: docker:18.09.3-git
-    steps:
-      - checkout
-      - setup_remote_docker:
-          version: 18.09.3
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update --no-cache curl py-pip jq make git bash
       - slack/notify:
-          channel: C0233P8D42J
-          event: pass
-          template: basic_success_1
-      - slack/notify:
+          when: on_fail
           channel: C0233P8D42J
           event: fail
           template: basic_fail_1 
+
+  # Notify:
+  #   docker:
+  #     - image: docker:18.09.3-git
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker:
+  #         version: 18.09.3
+  #     - run:
+  #         name: Install dependencies
+  #         command: |
+  #           apk add --update --no-cache curl py-pip jq make git bash
+  #     - slack/notify:
+  #         channel: C0233P8D42J
+  #         event: pass
+  #         template: basic_success_1
+  #     - slack/notify:
+  #         channel: C0233P8D42J
+  #         event: fail
+  #         template: basic_fail_1 
 
 
 workflows:
@@ -70,12 +80,12 @@ workflows:
               only: circleci-project-setup
           context: test
 
-      - Notify:
-          requires:
-            - Hello
-            - Deployment
-          filters:
-            branches:
-              only: circleci-project-setup
-          context: test
+      # - Notify:
+      #     requires:
+      #       - Hello
+      #       - Deployment
+      #     filters:
+      #       branches:
+      #         only: circleci-project-setup
+      #     context: test
 
