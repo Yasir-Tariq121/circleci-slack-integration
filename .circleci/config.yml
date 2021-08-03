@@ -17,11 +17,14 @@ jobs:
           command: |
             apk add --update --no-cache curl py-pip jq make git bash
             echo "Hello World"
-      - slack/notify:
-          when: on_fail
-          channel: C0233P8D42J
-          event: fail
-          template: basic_fail_1 
+      - when:
+          condition:
+            on_fail
+          steps:
+            - slack/notify:
+                channel: C0233P8D42J
+                event: fail
+                template: basic_fail_1 
 
   Deployment:
     docker:
@@ -35,11 +38,15 @@ jobs:
           command: |
             apk add --update --no-cache curl py-pip jq make git bash
             eco "Hello from Circleci"  
-      - slack/notify:
-          when: on_fail
-          channel: C0233P8D42J
-          event: fail
-          template: basic_fail_1 
+      - when:
+          condition:
+            on_fail
+          steps:
+            - slack/notify:
+                channel: C0233P8D42J
+                event: fail
+                template: basic_fail_1 
+      
 
   # Notify:
   #   docker:
